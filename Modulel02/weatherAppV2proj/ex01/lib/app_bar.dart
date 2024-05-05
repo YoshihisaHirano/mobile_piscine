@@ -24,35 +24,27 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   }
 
   void onSubmitLocation(String value) {
-    _controller.text = value;
-    fetchLocations(value).then((locations) {
-      if (locations.isNotEmpty) {
-        print(locations);
-        setState(() {
-          _locations = locations;
-        });
-      }
-    });
+    // _controller.text = value;
+    // fetchLocations(value).then((locations) {
+    //   if (locations.isNotEmpty) {
+    //     print(locations);
+    //     setState(() {
+    //       _locations = locations;
+    //     });
+    //   }
+    // });
     widget.onLocationChange(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
+    return Padding(padding: const EdgeInsets.only(left: 12), child: Row(children: [
       Expanded(
-          child:
-              // TextField(
-              //     controller: _controller,
-              //     focusNode: _focusNode,
-              //     onSubmitted: onSubmitLocation,
-              //     onTapOutside: (event) => _focusNode.unfocus(),
-              //     decoration: const InputDecoration(
-              //       hintText: "Search location...",
-              //       prefixIcon: Icon(Icons.search),
-              //     ))
-              LocationSearchBar()),
+          child: LocationSearchBar(
+        onLocationChange: onSubmitLocation,
+      )),
       GeolocationButtonWidget(onLocationChange: onGeolocationClick),
-    ]);
+    ]));
   }
 
   @override

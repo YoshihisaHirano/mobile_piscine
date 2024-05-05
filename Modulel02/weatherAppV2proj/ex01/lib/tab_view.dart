@@ -11,22 +11,24 @@ class TabViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(tabName,
-              style:
-                  const TextStyle(fontSize: 52, fontWeight: FontWeight.bold)),
-          Padding(
-              padding: const EdgeInsets.all(8),
-              child: Text(
-                location,
-                style: const TextStyle(fontSize: 24),
-                textAlign: TextAlign.center,
-              )),
-        ],
-      ),
-    );
+    return Padding(
+        padding: EdgeInsets.all(8),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(tabName,
+                  style: const TextStyle(
+                      fontSize: 44, fontWeight: FontWeight.bold)),
+              Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Text(
+                    location,
+                    style: const TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
+                  )),
+            ],
+          ),
+        ));
   }
 }

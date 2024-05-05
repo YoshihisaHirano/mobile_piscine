@@ -1,1 +1,0 @@
- /Users/azu/42_projects/mobile_piscine/Modulel02/weatherAppV2proj/ex01/.dart_tool/flutter_build/4cd8d7a23951fea4957e1804f2c3a15d/native_assets.yaml: 
