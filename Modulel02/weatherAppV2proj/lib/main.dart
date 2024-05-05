@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:weatherproj/app_bar.dart';
-import 'package:weatherproj/bottom_bar.dart';
-import 'package:weatherproj/tab_view.dart';
+import 'package:weatherAppV2proj/app_bar.dart';
+import 'package:weatherAppV2proj/bottom_bar.dart';
+import 'package:weatherAppV2proj/tab_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Weather Proj V2',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,

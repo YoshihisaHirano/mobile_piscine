@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weatherproj/geolocation_button.dart';
+import 'package:weatherAppV2proj/geolocation_button.dart';
 
 class AppBarWidget extends StatefulWidget {
   final Function(String) onLocationChange;
