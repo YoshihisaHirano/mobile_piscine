@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:weatherAppV2proj/services/geocoding.dart';
 
 class LocationSearchBar extends StatefulWidget {
   final Function(String) onLocationChange;
-  LocationSearchBar({Key? key, required this.onLocationChange})
-      : super(key: key);
+  const LocationSearchBar({super.key, required this.onLocationChange});
   @override
   _LocationSearchBarState createState() => _LocationSearchBarState();
 }
@@ -20,6 +18,10 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
             controller: controller,
             focusNode: focusNode,
             onTapOutside: (event) => focusNode.unfocus(),
+            onSubmitted: (value) => {
+                  widget.onLocationChange(value),
+                  focusNode.unfocus(),
+                },
             decoration: const InputDecoration(
               // border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.search),
