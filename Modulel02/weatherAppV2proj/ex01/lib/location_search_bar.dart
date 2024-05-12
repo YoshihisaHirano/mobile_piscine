@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:weatherAppV2proj/services/geocoding.dart';
+import 'package:weatherAppV2proj/utils/get_location_string.dart';
 
 class LocationSearchBar extends StatefulWidget {
   final Function(String) onLocationChange;
@@ -18,12 +19,18 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
             controller: controller,
             focusNode: focusNode,
             onTapOutside: (event) => focusNode.unfocus(),
-            onSubmitted: (value) => {
-                  widget.onLocationChange(value),
-                  focusNode.unfocus(),
-                },
+            onSubmitted: (value) async {
+              var location = await fetchOneLocation(value);
+              if (location.isEmpty) {
+                widget.onLocationChange(value);
+              } else {
+                var locationString = getLocationString(location[0]);
+                controller.text = locationString;
+                widget.onLocationChange(locationString);
+              }
+              focusNode.unfocus();
+            },
             decoration: const InputDecoration(
-              // border: OutlineInputBorder(),
               prefixIcon: Icon(Icons.search),
               labelText: 'Search location',
             ));
@@ -31,7 +38,6 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
       suggestionsCallback: (pattern) async {
         if (pattern.length >= 3) {
           var places = await fetchLocations(pattern);
-          // print(places[0]);
           return places;
         } else {
           return [];
@@ -39,11 +45,12 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
       },
       itemBuilder: (context, suggestion) {
         return ListTile(
-          title: Text(suggestion["display_name"]),
+          title: Text(getLocationString(suggestion)),
         );
       },
       onSelected: (suggestion) {
-        widget.onLocationChange(suggestion["display_name"]);
+        String locationString = getLocationString(suggestion);
+        widget.onLocationChange(locationString);
       },
     );
   }

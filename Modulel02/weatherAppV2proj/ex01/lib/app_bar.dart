@@ -24,15 +24,6 @@ class _AppBarWidgetState extends State<AppBarWidget> {
   }
 
   void onSubmitLocation(String value) {
-    // _controller.text = value;
-    // fetchLocations(value).then((locations) {
-    //   if (locations.isNotEmpty) {
-    //     print(locations);
-    //     setState(() {
-    //       _locations = locations;
-    //     });
-    //   }
-    // });
     widget.onLocationChange(value);
   }
 
