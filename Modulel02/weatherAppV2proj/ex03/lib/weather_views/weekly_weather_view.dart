@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherAppV2proj/error_text.dart';
 import 'package:weatherAppV2proj/services/weather.dart';
 
 class WeeklyWeatherView extends StatefulWidget {
@@ -30,7 +31,7 @@ class _WeeklyWeatherViewState extends State<WeeklyWeatherView> {
           return const SizedBox(
               height: 20, width: 20, child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const ErrorText(error: 'Failed to load 7 days weather data');
         } else {
           List<DailyWeatherData> weatherRows = snapshot.data ?? [];
           return SingleChildScrollView(

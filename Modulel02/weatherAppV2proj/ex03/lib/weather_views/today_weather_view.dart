@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherAppV2proj/error_text.dart';
 import 'package:weatherAppV2proj/services/weather.dart';
 
 class TodayWeatherView extends StatefulWidget {
@@ -28,7 +29,7 @@ class _TodayWeatherViewState extends State<TodayWeatherView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(height: 20, width: 20, child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const ErrorText(error: 'Failed to load today\'s hourly weather data');
         } else {
           List<HourlyWeatherData> weatherRows = snapshot.data ?? [];
           return SingleChildScrollView(

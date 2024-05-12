@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weatherAppV2proj/error_text.dart';
 import 'package:weatherAppV2proj/services/weather.dart';
 
 class CurrentWeatherView extends StatefulWidget {
@@ -28,7 +29,7 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const SizedBox(height: 20, width: 20, child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return const ErrorText(error: 'Failed to load current weather data');
         } else {
           return Text(snapshot.data.toString(),
               style: const TextStyle(fontSize: 22, height: 1.8),
