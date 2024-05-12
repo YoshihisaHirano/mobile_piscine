@@ -6,8 +6,9 @@ import 'package:weatherAppV2proj/utils/get_location_string.dart';
 class LocationSearchBar extends StatefulWidget {
   final Function(String) onLocationChange;
   final Function(double, double) onCoordinatesChange;
+  final Function() clearCoordinates;
 
-  const LocationSearchBar({super.key, required this.onLocationChange, required this.onCoordinatesChange});
+  const LocationSearchBar({super.key, required this.onLocationChange, required this.onCoordinatesChange, required this.clearCoordinates});
   @override
   _LocationSearchBarState createState() => _LocationSearchBarState();
 }
@@ -24,6 +25,7 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
             onSubmitted: (value) => {
                   widget.onLocationChange(value),
                   focusNode.unfocus(),
+                  widget.clearCoordinates()
                 },
             decoration: const InputDecoration(
               // border: OutlineInputBorder(),

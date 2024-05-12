@@ -5,8 +5,9 @@ import 'package:weatherAppV2proj/location_search_bar.dart';
 class AppBarWidget extends StatefulWidget {
   final Function(String) onLocationChange;
   final Function(double, double) onCoordinatesChange;
+  final Function() clearCoordinates;
 
-  const AppBarWidget({super.key, required this.onLocationChange, required this.onCoordinatesChange});
+  const AppBarWidget({super.key, required this.onLocationChange, required this.onCoordinatesChange, required this.clearCoordinates});
 
   @override
   _AppBarWidgetState createState() => _AppBarWidgetState();
@@ -31,6 +32,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
               child: LocationSearchBar(
             onLocationChange: onSubmitLocation,
             onCoordinatesChange: widget.onCoordinatesChange,
+            clearCoordinates: widget.clearCoordinates,
           )),
           GeolocationButtonWidget(onLocationChange: onGeolocationClick, onCoordinatesChange: widget.onCoordinatesChange),
         ]));

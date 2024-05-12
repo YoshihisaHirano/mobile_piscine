@@ -116,21 +116,20 @@ Future<List<DailyWeatherData>> fetchDailyWeather(
 
   if (response.statusCode == 200) {
     Map<String, dynamic> weatherData = json.decode(response.body);
-    List<dynamic> dailyWeather = weatherData['daily'];
+    Map<String, dynamic> dailyWeather = weatherData['daily'];
+    List<dynamic> dailyWeatherDay = dailyWeather['time'];
+    List<dynamic> dailyWeatherTempMax = dailyWeather['temperature_2m_max'];
+    List<dynamic> dailyWeatherTempMin = dailyWeather['temperature_2m_min'];
+    List<dynamic> dailyWeatherCode = dailyWeather['weather_code'];
+
 
     List<DailyWeatherData> dailyWeatherData = [];
-    for (var day in dailyWeather) {
-      String dayString = day['time'];
-      String temperatureMax = '${day['temperature_2m_max']}°C';
-      String temperatureMin = '${day['temperature_2m_min']}°C';
-      String weatherDescription =
-          weatherCodes[day['weather_code'].toString()] ?? 'Unknown';
-
+    for (var i = 0; i < dailyWeatherDay.length; i++) {
       dailyWeatherData.add(DailyWeatherData(
-        day: dayString,
-        temperatureMax: temperatureMax,
-        temperatureMin: temperatureMin,
-        weatherDescription: weatherDescription,
+        day: dailyWeatherDay[i],
+        temperatureMax: dailyWeatherTempMax[i].toString(),
+        temperatureMin: dailyWeatherTempMin[i].toString(),
+        weatherDescription: weatherCodes[dailyWeatherCode[i].toString()] ?? 'Unknown',
       ));
     }
 

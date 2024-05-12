@@ -41,7 +41,7 @@ class TabViewWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.only(bottom: 8, top: 24, left: 8, right: 8),
                   child: Text(
                     location.isEmpty ? "Select a location" : location,
                     style: const TextStyle(

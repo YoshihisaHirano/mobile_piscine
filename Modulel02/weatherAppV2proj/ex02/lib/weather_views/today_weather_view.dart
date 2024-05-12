@@ -26,7 +26,7 @@ class _TodayWeatherViewState extends State<TodayWeatherView> {
       future: data,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const SizedBox(height: 20, width: 20, child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {

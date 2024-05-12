@@ -56,6 +56,12 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
+  void _clearCoordinates() {
+    setState(() {
+      _locationCoordinates = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +70,8 @@ class _MyHomePageState extends State<MyHomePage>
             preferredSize: const Size.fromHeight(50.0),
             child: AppBarWidget(
                 onLocationChange: _onLocationChange,
-                onCoordinatesChange: _onCoordinatesChange),
+                onCoordinatesChange: _onCoordinatesChange,
+                clearCoordinates: _clearCoordinates),
           ),
         ),
         bottomNavigationBar: BottomBarWidget(
