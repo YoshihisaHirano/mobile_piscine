@@ -87,22 +87,20 @@ Future<List<HourlyWeatherData>> fetchHourlyWeather(
 
   if (response.statusCode == 200) {
     Map<String, dynamic> weatherData = json.decode(response.body);
-    List<dynamic> hourlyWeather = weatherData['hourly'];
+    Map<String, dynamic> hourlyWeather = weatherData['hourly'];
 
     List<HourlyWeatherData> hourlyWeatherData = [];
-    for (var hour in hourlyWeather) {
-      String hourString = hour['time'];
-      String temperature = '${hour['temperature_2m']}°C';
-      String weatherDescription =
-          weatherCodes[hour['weather_code'].toString()] ?? 'Unknown';
-      String windSpeed = '${hour['wind_speed_10m']} km/h';
-
+    List<dynamic> hourlyWeatherTime = hourlyWeather['time'];
+    List<dynamic> hourlyWeatherTemp = hourlyWeather['temperature_2m'];
+    List<dynamic> hourlyWeatherCode = hourlyWeather['weather_code'];
+    List<dynamic> hourlyWeatherWind = hourlyWeather['wind_speed_10m'];
+    for (var i = 0; i < hourlyWeatherTime.length; i++) {
       hourlyWeatherData.add(HourlyWeatherData(
-        hour: hourString,
-        temperature: temperature,
-        weatherDescription: weatherDescription,
-        windSpeed: windSpeed,
-      ));
+          hour: hourlyWeatherTime[i],
+          temperature: hourlyWeatherTemp[i].toString(),
+          weatherDescription:
+              weatherCodes[hourlyWeatherCode[i].toString()] ?? 'Unknown',
+          windSpeed: hourlyWeatherWind[i].toString()));
     }
 
     return hourlyWeatherData;

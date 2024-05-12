@@ -44,13 +44,15 @@ class TabViewWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   child: Text(
                     location.isEmpty ? "Select a location" : location,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold),
                     textAlign: TextAlign.center,
                   )),
               locationCoordinates == null
                   ? const SizedBox()
-                  : Padding(
-                      padding: const EdgeInsets.all(8), child: weatherView)
+                  : Expanded(
+                      child: Padding(
+                          padding: const EdgeInsets.all(8), child: weatherView))
             ],
           ),
         ));

@@ -30,7 +30,36 @@ class _TodayWeatherViewState extends State<TodayWeatherView> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return Text(snapshot.data.toString());
+          List<HourlyWeatherData> weatherRows = snapshot.data ?? [];
+          return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columnSpacing: 20,
+                    columns: const <DataColumn>[
+                      DataColumn(
+                        label: Text('Hour'),
+                      ),
+                      DataColumn(
+                        label: Text('Temp'),
+                      ),
+                      DataColumn(label: Text('Weather')),
+                      DataColumn(label: Text('Wind'))
+                    ],
+                    rows: weatherRows
+                        .map<DataRow>((HourlyWeatherData weatherData) {
+                      return DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(weatherData.hour)),
+                          DataCell(Text(weatherData.temperature.toString())),
+                          DataCell(Text(weatherData.weatherDescription)),
+                          DataCell(Text(weatherData.windSpeed))
+                          // Add more DataCell widgets for other properties of HourlyWeatherData
+                        ],
+                      );
+                    }).toList(),
+                  )));
         }
       },
     );
