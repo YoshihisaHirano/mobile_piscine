@@ -39,14 +39,14 @@ class _GeolocationButtonWidgetState extends State<GeolocationButtonWidget> {
       await isServiceEnabled();
       if (!_serviceEnabled) {
         widget.onLocationChange(
-            "Please enable location services to see your location.");
+            "Please enable location services to see weather in your location.");
         return;
       }
       // on iOS it cannot be asked again, once denied
       await isPermissionGranted();
       if (_permissionGranted != PermissionStatus.granted) {
         widget.onLocationChange(
-            "Please allow location access to see your location.");
+            "Please allow location access to see weather in your location.");
         return;
       }
       _locationData = await _location.getLocation();
@@ -61,7 +61,7 @@ class _GeolocationButtonWidgetState extends State<GeolocationButtonWidget> {
         widget.onLocationChange(place);
       } else {
         widget.onLocationChange(
-            "Please allow location access to see your location.");
+            "Please allow location access to see weather in your location.");
       }
     } catch (e) {
       print("Error in onGeolocationClick");

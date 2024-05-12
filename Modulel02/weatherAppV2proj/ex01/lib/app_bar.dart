@@ -19,7 +19,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
 
   void onGeolocationClick(String value) {
     widget.onLocationChange(value);
-    print(value);
+    // print(value);
     _controller.text = "";
   }
 
