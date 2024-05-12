@@ -1,6 +1,34 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+class HourlyWeatherData {
+  final String hour;
+  final String temperature;
+  final String weatherDescription;
+  final String windSpeed;
+
+  HourlyWeatherData({
+    required this.hour,
+    required this.temperature,
+    required this.weatherDescription,
+    required this.windSpeed,
+  });
+}
+
+class DailyWeatherData {
+  final String day;
+  final String temperatureMax;
+  final String temperatureMin;
+  final String weatherDescription;
+
+  DailyWeatherData({
+    required this.day,
+    required this.temperatureMax,
+    required this.temperatureMin,
+    required this.weatherDescription,
+  });
+}
+
 final Map<String, String> weatherCodes = {
   '0': 'Clear sky',
   '1': 'Mainly clear',
@@ -32,23 +60,84 @@ final Map<String, String> weatherCodes = {
   '99': 'Thunderstorm with heavy hail',
 };
 
-Future<String> fetchCurrentWeather(
-    double latitude, double longitude) async {
+String apiUrl = 'https://api.open-meteo.com/v1/forecast';
+
+Future<String> fetchCurrentWeather(double latitude, double longitude) async {
   final response = await http.get(Uri.parse(
-      'https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current=temperature_2m,weather_code,wind_speed_10m&forecast_days=1'));
+      '$apiUrl?latitude=$latitude&longitude=$longitude&current=temperature_2m,weather_code,wind_speed_10m&forecast_days=1'));
 
   if (response.statusCode == 200) {
     Map<String, dynamic> weatherData = json.decode(response.body);
-    String temperature =
-        '${weatherData['current']['temperature_2m']}°C';
+    Map<String, dynamic> currentWeather = weatherData['current'];
+    String temperature = '${currentWeather['temperature_2m']}°C';
     String weatherDescription =
-        weatherCodes[weatherData['current']['weather_code'].toString()] ??
-            'Unknown';
-    String windSpeed =
-        '${weatherData['current']['wind_speed_10m']} km/h';
+        weatherCodes[currentWeather['weather_code'].toString()] ?? 'Unknown';
+    String windSpeed = '${currentWeather['wind_speed_10m']} km/h';
 
     return 'Temperature: $temperature\nWeather: $weatherDescription\nWind speed: $windSpeed';
   } else {
     throw Exception('Failed to load Current weather data');
+  }
+}
+
+Future<List<HourlyWeatherData>> fetchHourlyWeather(
+    double latitude, double longitude) async {
+  final response = await http.get(Uri.parse(
+      '$apiUrl?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,weather_code,wind_speed_10m&forecast_days=1'));
+
+  if (response.statusCode == 200) {
+    Map<String, dynamic> weatherData = json.decode(response.body);
+    List<dynamic> hourlyWeather = weatherData['hourly'];
+
+    List<HourlyWeatherData> hourlyWeatherData = [];
+    for (var hour in hourlyWeather) {
+      String hourString = hour['time'];
+      String temperature = '${hour['temperature_2m']}°C';
+      String weatherDescription =
+          weatherCodes[hour['weather_code'].toString()] ?? 'Unknown';
+      String windSpeed = '${hour['wind_speed_10m']} km/h';
+
+      hourlyWeatherData.add(HourlyWeatherData(
+        hour: hourString,
+        temperature: temperature,
+        weatherDescription: weatherDescription,
+        windSpeed: windSpeed,
+      ));
+    }
+
+    return hourlyWeatherData;
+  } else {
+    throw Exception('Failed to load Today\'s hourly weather data');
+  }
+}
+
+Future<List<DailyWeatherData>> fetchDailyWeather(
+    double latitude, double longitude) async {
+  final response = await http.get(Uri.parse(
+      '$apiUrl?latitude=$latitude&longitude=$longitude&daily=temperature_2m_max,temperature_2m_min,weather_code&forecast_days=7'));
+
+  if (response.statusCode == 200) {
+    Map<String, dynamic> weatherData = json.decode(response.body);
+    List<dynamic> dailyWeather = weatherData['daily'];
+
+    List<DailyWeatherData> dailyWeatherData = [];
+    for (var day in dailyWeather) {
+      String dayString = day['time'];
+      String temperatureMax = '${day['temperature_2m_max']}°C';
+      String temperatureMin = '${day['temperature_2m_min']}°C';
+      String weatherDescription =
+          weatherCodes[day['weather_code'].toString()] ?? 'Unknown';
+
+      dailyWeatherData.add(DailyWeatherData(
+        day: dayString,
+        temperatureMax: temperatureMax,
+        temperatureMin: temperatureMin,
+        weatherDescription: weatherDescription,
+      ));
+    }
+
+    return dailyWeatherData;
+  } else {
+    throw Exception('Failed to load 7 days weather data');
   }
 }

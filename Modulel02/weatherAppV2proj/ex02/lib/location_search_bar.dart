@@ -34,7 +34,6 @@ class _LocationSearchBarState extends State<LocationSearchBar> {
       suggestionsCallback: (pattern) async {
         if (pattern.length >= 3) {
           var places = await fetchLocations(pattern);
-          // print(places[0]);
           return places;
         } else {
           return [];

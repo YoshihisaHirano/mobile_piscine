@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:weatherAppV2proj/services/weather.dart';
 
-class TodayWeatherView extends StatefulWidget {
+class WeeklyWeatherView extends StatefulWidget {
   final double lat;
   final double lon;
 
-  TodayWeatherView({required this.lat, required this.lon});
+  WeeklyWeatherView({required this.lat, required this.lon});
 
   @override
-  _TodayWeatherViewState createState() => _TodayWeatherViewState();
+  _WeeklyWeatherViewState createState() => _WeeklyWeatherViewState();
 }
 
-class _TodayWeatherViewState extends State<TodayWeatherView> {
-  late Future<List<HourlyWeatherData>> data;
+class _WeeklyWeatherViewState extends State<WeeklyWeatherView> {
+  late Future<List<DailyWeatherData>> data;
 
   @override
   void initState() {
     super.initState();
-    data = fetchHourlyWeather(widget.lat, widget.lon);
+    data = fetchDailyWeather(widget.lat, widget.lon);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<HourlyWeatherData>>(
+    return FutureBuilder<List<DailyWeatherData>>(
       future: data,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -30,7 +30,9 @@ class _TodayWeatherViewState extends State<TodayWeatherView> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return Text(snapshot.data.toString());
+          return Text(snapshot.data.toString(),
+              style: const TextStyle(fontSize: 20),
+              textAlign: TextAlign.center);
         }
       },
     );

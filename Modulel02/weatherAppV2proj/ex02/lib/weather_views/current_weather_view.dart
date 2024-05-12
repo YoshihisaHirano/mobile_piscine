@@ -30,7 +30,9 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         } else {
-          return Text(data.toString());
+          return Text(snapshot.data.toString(),
+              style: const TextStyle(fontSize: 22, height: 1.8),
+              textAlign: TextAlign.center);
         }
       },
     );
