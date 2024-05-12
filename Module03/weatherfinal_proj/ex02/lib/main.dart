@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme.highContrastDark(
           primary: Color.fromRGBO(255, 64, 0, 1),
+          secondary: Color.fromRGBO(0, 149, 255, 1)
         ),
         useMaterial3: true,
       ),

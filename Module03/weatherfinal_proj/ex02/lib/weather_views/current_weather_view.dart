@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weatherFinalProj/error_text.dart';
 import 'package:weatherFinalProj/services/weather.dart';
+import 'package:weatherFinalProj/utils/weather-codes-icons.dart';
 
 class CurrentWeatherView extends StatefulWidget {
   final double lat;
@@ -13,7 +14,7 @@ class CurrentWeatherView extends StatefulWidget {
 }
 
 class _CurrentWeatherViewState extends State<CurrentWeatherView> {
-  late Future<String> data;
+  late Future<Map<String, String>> data;
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
+    return FutureBuilder<Map<String, String>>(
       future: data,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -32,9 +33,39 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
         } else if (snapshot.hasError) {
           return const ErrorText(error: 'Failed to load current weather data');
         } else {
-          return Text(snapshot.data.toString(),
-              style: const TextStyle(fontSize: 22, height: 1.8),
-              textAlign: TextAlign.center);
+          return Column(children: [
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: Text(
+                  snapshot.data!['temperature']!,
+                  style: TextStyle(fontSize: 44, color: Colors.primaries[0], fontWeight: FontWeight.w800),
+                )),
+            Flex(direction: Axis.vertical, children: [
+              Icon(
+                weatherCodesIcons[snapshot.data!['weatherDescription']] ??
+                    Icons.sunny,
+                size: 64,
+              ),
+              Text(
+                snapshot.data!['weatherDescription']!,
+                style: const TextStyle(fontSize: 24, height: 2),
+              )
+            ]),
+            Padding(
+                padding: const EdgeInsets.only(top: 28),
+                child: Flex(
+                    direction: Axis.horizontal,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Padding(
+                          padding: EdgeInsets.only(right: 12),
+                          child: Icon(Icons.air)),
+                      Text(
+                        snapshot.data!['windSpeed']!,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ])),
+          ]);
         }
       },
     );

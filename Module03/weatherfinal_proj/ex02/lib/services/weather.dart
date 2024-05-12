@@ -62,7 +62,7 @@ final Map<String, String> weatherCodes = {
 
 String apiUrl = 'https://api.open-meteo.com/v1/forecast';
 
-Future<String> fetchCurrentWeather(double latitude, double longitude) async {
+Future<Map<String, String>> fetchCurrentWeather(double latitude, double longitude) async {
   final response = await http.get(Uri.parse(
       '$apiUrl?latitude=$latitude&longitude=$longitude&current=temperature_2m,weather_code,wind_speed_10m&forecast_days=1'));
 
@@ -74,7 +74,11 @@ Future<String> fetchCurrentWeather(double latitude, double longitude) async {
         weatherCodes[currentWeather['weather_code'].toString()] ?? 'Unknown';
     String windSpeed = '${currentWeather['wind_speed_10m']} km/h';
 
-    return 'Temperature: $temperature\nWeather: $weatherDescription\nWind speed: $windSpeed';
+    return {
+      'temperature': temperature,
+      'weatherDescription': weatherDescription,
+      'windSpeed': windSpeed,
+    };
   } else {
     throw Exception('Failed to load Current weather data');
   }

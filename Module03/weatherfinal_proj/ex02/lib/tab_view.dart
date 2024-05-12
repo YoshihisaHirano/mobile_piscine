@@ -26,6 +26,7 @@ class TabViewWidget extends StatelessWidget {
 
     bool isLocationInvalid = locationCoordinates == null && location.isNotEmpty;
     bool isErrorPresent = error != null;
+    List<String> locationParts = location.split(', ');
 
     switch (tabName) {
       case 'Currently':
@@ -37,7 +38,7 @@ class TabViewWidget extends StatelessWidget {
       default:
         weatherView = WeeklyWeatherView(lat: lat, lon: lon);
     }
-    
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -51,13 +52,31 @@ class TabViewWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      bottom: 8, top: 24, left: 8, right: 8),
-                  child: Text(
-                    location.isEmpty ? "Select a location" : location,
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
+                      bottom: 8, top: 32, left: 8, right: 8),
+                  child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: location.isEmpty
+                              ? "Select a location"
+                              : locationParts[0],
+                          style: const TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                            height: 2 // Replace with your secondary color
+                          ),
+                        ),
+                        if (locationParts.length > 1)
+                          TextSpan(
+                            text: '\n${locationParts.sublist(1).join(', ')}',
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                              height: 2
+                            ),
+                          ),
+                      ])),
                 ),
                 locationCoordinates == null
                     ? const SizedBox()
