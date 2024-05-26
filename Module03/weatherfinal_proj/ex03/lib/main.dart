@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage>
                   backgroundColor: Colors.transparent,
                   appBar: AppBar(
                     bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(50.0),
+                      preferredSize: const Size.fromHeight(8.0),
                       child: AppBarWidget(
                         setError: _setError,
                         clearError: _clearError,

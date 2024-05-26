@@ -17,7 +17,7 @@ class HourlyTemperatureChart extends StatelessWidget {
         lineBarsData: [lineChartBarData],
         minX: 0,
         maxX: 23,
-        maxY: temperatures.reduce(max).ceilToDouble() ,
+        maxY: temperatures.reduce(max).ceilToDouble(),
         minY: temperatures.reduce(min).floorToDouble(),
       );
 
@@ -93,6 +93,7 @@ class HourlyTemperatureChart extends StatelessWidget {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
+    if (value == meta.max) return const SizedBox();
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 8,
@@ -105,13 +106,16 @@ class HourlyTemperatureChart extends StatelessWidget {
     return AspectRatio(
         aspectRatio: 1.3,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.only(right: 1, left: 1, top: MediaQuery.of(context).size.height * 0.012),
-            child: LineChart(hourlyTemperatureData),
-          ))
-        ]));
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Expanded(
+                  child: Padding(
+                padding: EdgeInsets.only(
+                    right: 1,
+                    left: 1,
+                    top: MediaQuery.of(context).size.height * 0.012),
+                child: LineChart(hourlyTemperatureData),
+              ))
+            ]));
   }
 }
