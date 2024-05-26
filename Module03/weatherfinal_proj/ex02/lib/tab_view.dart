@@ -51,8 +51,8 @@ class TabViewWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 8, top: 32, left: 8, right: 8),
+                  padding: EdgeInsets.only(
+                      bottom: 8, top: MediaQuery.of(context).size.height * 0.03, left: 8, right: 8),
                   child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(children: [

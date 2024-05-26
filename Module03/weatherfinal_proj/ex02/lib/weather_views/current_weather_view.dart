@@ -35,7 +35,7 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
         } else {
           return Column(children: [
             Padding(
-                padding: const EdgeInsets.symmetric(vertical: 32),
+                padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
                 child: Text(
                   snapshot.data!['temperature']!,
                   style: TextStyle(fontSize: 44, color: Colors.primaries[0], fontWeight: FontWeight.w800),
@@ -52,7 +52,7 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
               )
             ]),
             Padding(
-                padding: const EdgeInsets.only(top: 28),
+                padding: EdgeInsets.only(top: 28),
                 child: Flex(
                     direction: Axis.horizontal,
                     mainAxisAlignment: MainAxisAlignment.center,

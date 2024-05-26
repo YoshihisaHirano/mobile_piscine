@@ -15,7 +15,7 @@ class BottomBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.only(bottom: 8),
         child: TabBar(
           controller: tabController,
           tabs: tabs.asMap().entries.map((entry) {
