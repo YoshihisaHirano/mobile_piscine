@@ -93,7 +93,8 @@ class HourlyTemperatureChart extends StatelessWidget {
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
-    if (value == meta.max) return const SizedBox();
+    if (value == meta.max || value == meta.min) return const SizedBox();
+
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 8,
