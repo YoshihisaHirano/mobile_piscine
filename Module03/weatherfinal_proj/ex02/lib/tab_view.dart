@@ -60,8 +60,8 @@ class TabViewWidget extends StatelessWidget {
                           text: location.isEmpty
                               ? "Select a location"
                               : locationParts[0],
-                          style: const TextStyle(
-                            fontSize: 32,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height * 0.038,
                             fontWeight: FontWeight.bold,
                             color: Colors.blueAccent,
                             height: 2 // Replace with your secondary color
@@ -70,8 +70,8 @@ class TabViewWidget extends StatelessWidget {
                         if (locationParts.length > 1)
                           TextSpan(
                             text: '\n${locationParts.sublist(1).join(', ')}',
-                            style: const TextStyle(
-                              fontSize: 24,
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.height * 0.024,
                               fontWeight: FontWeight.w500,
                               height: 2
                             ),

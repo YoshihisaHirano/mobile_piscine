@@ -33,18 +33,18 @@ class _CurrentWeatherViewState extends State<CurrentWeatherView> {
         } else if (snapshot.hasError) {
           return const ErrorText(error: 'Failed to load current weather data');
         } else {
-          return Column(children: [
+          return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Padding(
                 padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
                 child: Text(
                   snapshot.data!['temperature']!,
-                  style: TextStyle(fontSize: 44, color: Colors.primaries[0], fontWeight: FontWeight.w800),
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.height * 0.044, color: Colors.primaries[0], fontWeight: FontWeight.w800),
                 )),
             Flex(direction: Axis.vertical, children: [
               Icon(
                 weatherCodesIcons[snapshot.data!['weatherDescription']] ??
                     Icons.sunny,
-                size: 64,
+                size: MediaQuery.of(context).size.height * 0.064,
               ),
               Text(
                 snapshot.data!['weatherDescription']!,
