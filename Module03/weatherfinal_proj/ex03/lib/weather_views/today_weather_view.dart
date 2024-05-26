@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:weatherFinalProj/charts/hourly_chart.dart';
 import 'package:weatherFinalProj/error_text.dart';
+import 'package:weatherFinalProj/scrollables/hourly_scrollable.dart';
 import 'package:weatherFinalProj/services/weather.dart';
+import 'package:weatherFinalProj/utils/weather-codes-icons.dart';
 
 class TodayWeatherView extends StatefulWidget {
   final double lat;
@@ -27,40 +30,42 @@ class _TodayWeatherViewState extends State<TodayWeatherView> {
       future: data,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const SizedBox(height: 20, width: 20, child: CircularProgressIndicator());
+          return const SizedBox(
+              height: 20, width: 20, child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return const ErrorText(error: 'Failed to load today\'s hourly weather data');
+          return const ErrorText(
+              error: 'Failed to load today\'s hourly weather data');
         } else {
-          List<HourlyWeatherData> weatherRows = snapshot.data ?? [];
-          return SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columnSpacing: 20,
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text('Hour'),
-                      ),
-                      DataColumn(
-                        label: Text('Temp'),
-                      ),
-                      DataColumn(label: Text('Weather')),
-                      DataColumn(label: Text('Wind'))
-                    ],
-                    rows: weatherRows
-                        .map<DataRow>((HourlyWeatherData weatherData) {
-                      return DataRow(
-                        cells: <DataCell>[
-                          DataCell(Text(weatherData.hour)),
-                          DataCell(Text(weatherData.temperature.toString())),
-                          DataCell(Text(weatherData.weatherDescription)),
-                          DataCell(Text(weatherData.windSpeed))
-                          // Add more DataCell widgets for other properties of HourlyWeatherData
-                        ],
-                      );
-                    }).toList(),
-                  )));
+          List<double> temperatures = snapshot.data!
+              .map((HourlyWeatherData weatherData) =>
+                  double.parse(weatherData.temperature))
+              .toList();
+          List<IconData> weatherConditions = snapshot.data!
+              .map((HourlyWeatherData weatherData) =>
+                  weatherCodesIcons[weatherData.weatherDescription] ??
+                  Icons.error)
+              .toList();
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              HourlyTemperatureChart(
+                temperatures: temperatures,
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              Expanded(
+                  child: HourlyWeatherScrollable(
+                weatherData: [
+                  for (var i = 0; i < snapshot.data!.length; i++)
+                    HourlyWeatherTile(
+                      timeOfDay: snapshot.data![i].hour.split('T')[1],
+                      temperature: double.parse(snapshot.data![i].temperature),
+                      weatherCondition: weatherConditions[i],
+                      windSpeed: double.parse(snapshot.data![i].windSpeed),
+                    )
+                ],
+              )),
+            ],
+          );
         }
       },
     );

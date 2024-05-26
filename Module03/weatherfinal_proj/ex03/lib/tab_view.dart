@@ -50,33 +50,41 @@ class TabViewWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 8, top: 32, left: 8, right: 8),
-                  child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: [
-                        TextSpan(
-                          text: location.isEmpty
-                              ? "Select a location"
-                              : locationParts[0],
-                          style: const TextStyle(
-                            fontSize: 32,
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: 8,
+                          top: MediaQuery.of(context).size.height * 0.03,
+                          left: 8,
+                          right: 8),
+                      child: Text(
+                        location.isEmpty ? "Select a location" : locationParts[0],
+                        style: TextStyle(
+                            fontSize: tabName == "Currently" ? MediaQuery.of(context).size.height * 0.042 : MediaQuery.of(context).size.height * 0.03,
                             fontWeight: FontWeight.bold,
                             color: Colors.blueAccent,
-                            height: 2 // Replace with your secondary color
-                          ),
-                        ),
-                        if (locationParts.length > 1)
-                          TextSpan(
-                            text: '\n${locationParts.sublist(1).join(', ')}',
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                              height: 2
+                            height: tabName == "Currently" ? 1.5 : 1 // Replace with your secondary color
                             ),
-                          ),
-                      ])),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Text(
+                        locationParts.sublist(1).join(', '),
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height * 0.024,
+                            fontWeight: FontWeight.w500,
+                            height: tabName == "Currently" ? 1.5 : 1),
+                      ),
+                    ),
+                  ],
                 ),
                 locationCoordinates == null
                     ? const SizedBox()

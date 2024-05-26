@@ -87,7 +87,7 @@ Future<Map<String, String>> fetchCurrentWeather(double latitude, double longitud
 Future<List<HourlyWeatherData>> fetchHourlyWeather(
     double latitude, double longitude) async {
   final response = await http.get(Uri.parse(
-      '$apiUrl?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,weather_code,wind_speed_10m&forecast_days=1'));
+      '$apiUrl?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,weather_code,wind_speed_10m&forecast_days=1&timezone=auto'));
 
   if (response.statusCode == 200) {
     Map<String, dynamic> weatherData = json.decode(response.body);
